@@ -49,7 +49,19 @@ def load_note():
         messagebox.showwarning("Error", "File catatan tidak ditemukan.")
 
 # Fungsi To-Do List
+def add_task():
+    task = todo_input.get()
+    if task:
+        todo_listbox.insert(tk.END, task)
+        todo_input.delete(0, tk.END)
 
+def mark_done():
+    selected = todo_listbox.curselection()
+    for i in selected:
+        todo_listbox.itemconfig(i, foreground="green")
+
+def clear_tasks():
+    todo_listbox.delete(0, tk.END)  
 
 # Fungsi Kalkulator
 
@@ -85,7 +97,16 @@ tk.Button(frame_notes, text="Simpan Catatan", command=save_note, bg="#1e88e5", f
 tk.Button(frame_notes, text="Buka Catatan", command=load_note, bg="#1e88e5", fg="white", font=("Arial", 12)).pack(pady=5)
 
 # Frame To-Do List
-
+frame_todo = tk.Frame(app, bg="#c8e6c9", relief="ridge", bd=5)
+frame_todo.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
+tk.Label(frame_todo, text="To-Do List", bg="#c8e6c9", font=("Arial", 16, "bold")).pack()
+todo_input = tk.Entry(frame_todo, width=20, font=("Arial", 12))
+todo_input.pack(pady=5)
+tk.Button(frame_todo, text="Tambah Tugas", command=add_task, bg="#43a047", fg="white", font=("Arial", 12)).pack(pady=5)
+tk.Button(frame_todo, text="Tandai Selesai", command=mark_done, bg="#43a047", fg="white", font=("Arial", 12)).pack(pady=5)
+tk.Button(frame_todo, text="Hapus Semua", command=clear_tasks, bg="#43a047", fg="white", font=("Arial", 12)).pack(pady=5)
+todo_listbox = tk.Listbox(frame_todo, height=10, width=30, font=("Arial", 12))
+todo_listbox.pack(pady=5)
 
 # Frame Kalkulator
 
