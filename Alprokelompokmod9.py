@@ -65,7 +65,18 @@ timer_label = tk.Label(frame_timer, text="00:00", bg="#ffe0b2", font=("Arial", 2
 timer_label.pack()
 
 # Frame Catatan Harian
+def save_note():
+    with open("notes.txt", "w") as file:
+        file.write(note_text.get("1.0", tk.END))
+    messagebox.showinfo("Berhasil", "Catatan disimpan.")
 
+def load_note():
+    try:
+        with open("notes.txt", "r") as file:
+            note_text.delete("1.0", tk.END)
+            note_text.insert(tk.END, file.read())
+    except FileNotFoundError:
+        messagebox.showwarning("Error", "File catatan tidak ditemukan.")
 
 # Frame To-Do List
 
