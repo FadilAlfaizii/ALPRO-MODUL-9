@@ -35,7 +35,18 @@ def clear_timer():
     timer_input.delete(0, tk.END)
 
 # Fungsi Catatan Harian
+def save_note():
+    with open("notes.txt", "w") as file:
+        file.write(note_text.get("1.0", tk.END))
+    messagebox.showinfo("Berhasil", "Catatan disimpan.")
 
+def load_note():
+    try:
+        with open("notes.txt", "r") as file:
+            note_text.delete("1.0", tk.END)
+            note_text.insert(tk.END, file.read())
+    except FileNotFoundError:
+        messagebox.showwarning("Error", "File catatan tidak ditemukan.")
 
 # Fungsi To-Do List
 
@@ -65,18 +76,13 @@ timer_label = tk.Label(frame_timer, text="00:00", bg="#ffe0b2", font=("Arial", 2
 timer_label.pack()
 
 # Frame Catatan Harian
-def save_note():
-    with open("notes.txt", "w") as file:
-        file.write(note_text.get("1.0", tk.END))
-    messagebox.showinfo("Berhasil", "Catatan disimpan.")
-
-def load_note():
-    try:
-        with open("notes.txt", "r") as file:
-            note_text.delete("1.0", tk.END)
-            note_text.insert(tk.END, file.read())
-    except FileNotFoundError:
-        messagebox.showwarning("Error", "File catatan tidak ditemukan.")
+frame_notes = tk.Frame(app, bg="#bbdefb", relief="ridge", bd=5)
+frame_notes.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
+tk.Label(frame_notes, text="Catatan Harian", bg="#bbdefb", font=("Arial", 16, "bold")).pack()
+note_text = tk.Text(frame_notes, height=8, width=30, font=("Arial", 12))
+note_text.pack(pady=5)
+tk.Button(frame_notes, text="Simpan Catatan", command=save_note, bg="#1e88e5", fg="white", font=("Arial", 12)).pack(pady=5)
+tk.Button(frame_notes, text="Buka Catatan", command=load_note, bg="#1e88e5", fg="white", font=("Arial", 12)).pack(pady=5)
 
 # Frame To-Do List
 
